@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="d19dc381-b457-48e2-bfe3-149fc18dabaa" name="TWITTER_CRAW">
+        <fileTransfer rootFolder="/root" accessType="SFTP" host="8.209.201.246" port="22" sshConfigId="63829788-7e6c-4800-b89e-e9b5373e2b73" sshConfig="root@8.209.201.246:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

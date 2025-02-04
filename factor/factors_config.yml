@@ -1,0 +1,218 @@
+close_ret:
+  shift: 60
+
+ret_v_prod:
+  window: 200
+
+wb1_tsrank:
+  window: 600
+
+wb10_tsrank:
+  window: 300
+
+spread1:
+
+en_s_sumprice_tsrank:
+  window1: 300
+  window2: 10
+
+en_b_sumprice_tsrank:
+  window1: 600
+  window2: 10
+
+OB_price_spread_tsrank:
+  window: 300
+
+bs_v5_tsrank:
+  window: 300
+
+DeriPBid1:
+  shift: 3
+
+en_s_price_tsrank:
+  window: 600
+
+# doubts, and needs to be confirmed whether the close values are consistent (solved)
+DEMA:
+  timeperiod: 60
+  shift: 20
+
+best_v_imbalance_tsrank:
+  window: 300
+  shift: 10
+
+#LeadingSpanB:
+#  window: 60
+#  shift: 5
+
+
+#BaseLine:
+#  window: 10
+#  shift: 5
+
+en_bs_price_diff:
+
+en_s_ret10_tsrank:
+  window: 600
+  shift: 20
+
+en_b_ret10_tsrank:
+  window: 300
+  shift: 5
+
+
+en_s_p10_tsrank:
+  window: 100
+
+can_en_v_ratio:
+  window: 100
+
+OB_price_2derivative_tsrank:
+  window: 100
+  shift: 20
+
+can_en_v_ratio_tsrank:
+  window1: 300
+  window2: 100
+
+en_b_price_tsrank:
+  window: 600
+
+en_b_p10_tsrank:
+  window: 100
+
+## 241 #242 #494
+#36 #37 #241 #242
+ret_n_corr:
+  window: 600
+
+# Something wrong
+TSI:
+  shift: 10
+
+#ConversionLine:
+#  window: 10
+#  shift: 5
+
+td_v_ratio:
+  window: 600
+
+
+en_s_ret5_tsrank:
+  window: 60
+  shift: 20
+
+td_buy_and_sell_vol_rela_ratio:
+  window: 5
+
+en_buy_and_sell_vol_rela_ratio:
+  window: 5
+
+ohlc_rat:
+  window: 600
+
+# parameter error, need to modify parameter window2
+# factor in "CalculateFactor" framework need be corrected
+td_p_v_ratio:
+  window1: 60
+  window2: 3
+
+# factor in "CalculateFactor" framework need be corrected
+trade_vol_in_high_price:
+  window: 600
+  perc: 0.9
+
+# due to difference on the precision of td_buy_p and close
+HCP:
+  window: 600
+
+
+close_adjusted:
+  window: 600
+
+# due to difference on the precision of td_buy_p and close
+LCP:
+  window: 600
+
+
+td_and_en_vol_ratio_buy_dir:
+  window: 5
+
+
+td_buy_rank:
+  window: 100
+
+
+bs_td_power_rough:
+  window: 600
+
+
+HCVOL:
+  window: 600
+
+
+trade_avgvol_in_high_price:
+  window: 600
+  perc: 0.9
+
+
+bs_power_rough:
+  window: 20
+
+pv_corr:
+  window: 200
+
+ret_avgvol_corr:
+  window: 600
+
+td_sell_rank:
+  window: 600
+
+ret_skew:
+  window: 600
+  shift: 10
+
+en_b_price_std:
+  window1: 300
+  window2: 100
+
+
+AwesomeOsc:
+  window: 60
+
+
+AlligatorTeeth:
+  shift: 20
+  window: 60
+
+ret_kurt:
+  window: 600
+  shift: 20
+
+# due to difference on the precision of td_sell_p and close
+LCVOL:
+  window: 600
+
+
+td_and_en_vol_ratio_sell_dir:
+  window: 10
+
+AroonDown:
+  window: 20
+  timeperiod: 40
+
+td_price_std:
+  window1: 60
+  window2: 60
+
+# wrong in 'CalculatorFactor' framework
+trade_num_in_low_price:
+  window: 600
+  perc: 0.3
+
+
+ct_b_med_tsrank:
+  window: 100
+
+en_v_order_inbalance:
+
