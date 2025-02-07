@@ -118,7 +118,7 @@ def on_quote(context, quote, location,dest):
         close_signal = generate_close_signal(par_dict, model_v)
         if (close_signal == 1) and can_place_order(context, quote.instrument_id, VOLUME, None, Side.Sell, Offset.Close):
             pass
-            order_id = context.insert_order(quote.instrument_id, EXCHANGE, SOURCE, ACCOUNT, data['offer_prices'][0],
+            order_id = context.insert_order(quote.instrument_id, EXCHANGE, SOURCE, ACCOUNT, data['ask_prices'][0],
                                             VOLUME,
                                             PriceType.Limit, Side.Sell, Offset.Close)
         elif (close_signal == -1) and can_place_order(context, quote.instrument_id, VOLUME, None, Side.Buy, Offset.Close):
@@ -131,9 +131,9 @@ def on_quote(context, quote, location,dest):
             order_id = context.insert_order(quote.instrument_id, EXCHANGE, SOURCE, ACCOUNT, data['bid_prices'][0],
                                             VOLUME,
                                             PriceType.Limit, Side.Buy, Offset.Open)
-        elif (signal == -1) and can_place_order(context, quote.instrument_id, VOLUME, data['offer_prices'][0], Side.Sell, Offset.Open):
+        elif (signal == -1) and can_place_order(context, quote.instrument_id, VOLUME, data['ask_prices'][0], Side.Sell, Offset.Open):
             pass
-            order_id = context.insert_order(quote.instrument_id, EXCHANGE, SOURCE, ACCOUNT, data['offer_prices'][0],
+            order_id = context.insert_order(quote.instrument_id, EXCHANGE, SOURCE, ACCOUNT, data['ask_prices'][0],
                                             VOLUME,
                                             PriceType.Limit, Side.Sell, Offset.Open)
         context.log.info("[factor comb] (value){} (signal){} (close_signal){}".format(model_v, signal, close_signal))
@@ -142,7 +142,7 @@ def on_quote(context, quote, location,dest):
         context.log.info("[order] (rid){} (ticker){}".format(order_id, quote.instrument_id))
 
         # 更新最新的盘口价格
-        context.depth_orderbook[quote.instrument_id] = {'bid1': data['bid_prices'][0], 'ask1': data['offer_prices'][0]}
+        context.depth_orderbook[quote.instrument_id] = {'bid1': data['bid_prices'][0], 'ask1': data['ask_prices'][0]}
         # if order_id > 0:
         #     # 通过添加时间回调，在三秒以后撤单
         #     context.add_timer(context.now() + 3 * 1000000000, lambda ctx, event: cancel_order(ctx, order_id))

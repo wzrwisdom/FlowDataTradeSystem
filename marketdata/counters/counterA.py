@@ -1,7 +1,7 @@
 import datetime
 import pandas as pd
 
-from marketdata.data_adapter import DataAdapter
+from FlowDataTradeSystem.marketdata.data_adapter import DataAdapter
 
 class CounterAAdapter(DataAdapter):
     def adapt_snapshot(self, raw_data):

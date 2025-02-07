@@ -4,22 +4,24 @@ from FlowDataTradeSystem.strategy.strategy import Strategy
 from loguru import logger as log
 import pandas as pd
 class StrategyA(Strategy):
-    def __init__(self, feature_builder, factor_builder, context=None):
+    def __init__(self, feature_builderDict, factor_builderDict, context=None):
         super(StrategyA, self).__init__()
-        self.feature_builder = feature_builder
-        self.factor_builder = factor_builder
+        self.feature_builderDict = feature_builderDict
+        self.factor_builderDict = factor_builderDict
         self.context = context
 
     def on_quote(self, context, data):
         # print(data)
+        feature_builder = self.feature_builderDict[data['symbol']]
+        factor_builder = self.factor_builderDict[data['symbol']]
         log.info("Accept snapshot info and build features")
         time1 = time.perf_counter()
-        self.feature_builder.build_snap_features(data)
+        feature_builder.build_snap_features(data)
         time2 = time.perf_counter()
         time3 = time.perf_counter()
         elapsed_time = time3 - time2
         log.info(f"计算特征耗时{elapsed_time:.4f}")
-        results = self.factor_builder.compute_all_factors()
+        results = factor_builder.compute_all_factors()
         time3 = time.perf_counter()
         elapsed_time = time3 - time2
         log.info(f"计算因子耗时{elapsed_time:.4f}")
@@ -27,7 +29,7 @@ class StrategyA(Strategy):
 
         symbol_ = data['symbol']
         preprocess_filepath = self.context["preprocess_filepath"].format(symbol_)
-        factors = self.factor_builder.preprocess(preprocess_filepath, self.context['judge_col'], self.context['no_winsorize_factors'], factors=results.copy())
+        factors = factor_builder.preprocess(preprocess_filepath, self.context['judge_col'], self.context['no_winsorize_factors'], factors=results.copy())
         if factors is None:
             return
         else:
@@ -60,18 +62,20 @@ class StrategyA(Strategy):
     def on_transaction(self, context, transaction):
         # print(transaction)
         # log.info("Accept trade info")
-        self.feature_builder.add_transaction(transaction)
+        feature_builder = self.feature_builderDict[transaction['symbol']]
+        feature_builder.add_transaction(transaction)
 
     def on_order(self, context, order):
         print(order)
 
-    def on_entrust(self, context, data):
+    def on_entrust(self, context, entrust):
         # log.info("Accept entrust info")
+        feature_builder = self.feature_builderDict[entrust['symbol']]
         # 将09：30之前的逐笔委托提前导入特征构造类中
-        if data['datetime'].time() < pd.to_datetime('09:30:00').time():
-            self.feature_builder.entrust_dict_by_appl_seq[data['appl_seq_num']] = data
+        if entrust['datetime'].time() < pd.to_datetime('09:30:00').time():
+            feature_builder.entrust_dict_by_appl_seq[entrust['appl_seq_num']] = entrust
             return
-        self.feature_builder.add_entrust(data)
+        feature_builder.add_entrust(entrust)
 
 
 def generate_signal(context, model_v):
