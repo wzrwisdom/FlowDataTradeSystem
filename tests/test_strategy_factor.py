@@ -19,10 +19,19 @@ factors_dir = os.path.join("../", "factor/factors")
 load_factors_from_directory(os.path.join(factors_dir, ""), "factor/factors")
 
 
-featureBuilder = FeatureBuilder()
+# featureBuilder = FeatureBuilder()
+# config_filepath = r'C:\Users\12552\PycharmProjects\FlowDataTradeSystem\factor\factors_config.yml'
+# factorBuilder = FactorBuilder(featureBuilder, config_filepath)
+# strategy = StrategyA(featureBuilder, factorBuilder)
+
+symbols = ['510310.SH', '510300.SH']
+featBuilderDict = {}
+facBuilderDict = {}
 config_filepath = r'C:\Users\12552\PycharmProjects\FlowDataTradeSystem\factor\factors_config.yml'
-factorBuilder = FactorBuilder(featureBuilder, config_filepath)
-strategy = StrategyA(featureBuilder, factorBuilder)
+for symbol in symbols:
+    featBuilderDict[symbol] = FeatureBuilder()
+    facBuilderDict[symbol] = FactorBuilder(featBuilderDict[symbol], config_filepath)
+strategy = StrategyA(featBuilderDict, facBuilderDict)
 
 snap_dh = dh.SnapshotDataHandler()
 snap_dh.subscribe(strategy.on_quote)

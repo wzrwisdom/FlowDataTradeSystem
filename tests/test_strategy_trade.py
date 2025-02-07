@@ -1,17 +1,17 @@
 import pandas as pd
 import sys, os
 import yaml
-sys.path.insert(0, "../")
+sys.path.insert(0, "../../")
 
-from marketdata import datahandler as dh
-from strategy.strategyA import StrategyA
-from myenums.market_data_type import MarketDataType
-from marketdata.data_adapter import CounterDataFetcher
-from marketdata.counters.counterA import CounterAAdapter
-from feature.feature_builder import FeatureBuilder
-from factor.factor_builder import FactorBuilder
-from factor.factor_loader import load_factors_from_directory
-from model.model_base import ModelBase
+from FlowDataTradeSystem.marketdata import datahandler as dh
+from FlowDataTradeSystem.strategy.strategyA import StrategyA
+from FlowDataTradeSystem.myenums.market_data_type import MarketDataType
+from FlowDataTradeSystem.marketdata.data_adapter import CounterDataFetcher
+from FlowDataTradeSystem.marketdata.counters.counterA import CounterAAdapter
+from FlowDataTradeSystem.feature.feature_builder import FeatureBuilder
+from FlowDataTradeSystem.factor.factor_builder import FactorBuilder
+from FlowDataTradeSystem.factor.factor_loader import load_factors_from_directory
+from FlowDataTradeSystem.model.model_base import ModelBase
 from utils.data_input import *
 
 # 动态加载所有因子模块
@@ -31,9 +31,18 @@ def get_model_dict(factors_name):
             model_dict[symbol] = model
     return model_dict
 
-featureBuilder = FeatureBuilder()
+# featureBuilder = FeatureBuilder()
+# config_filepath = r'C:\Users\12552\PycharmProjects\FlowDataTradeSystem\factor\factors_config.yml'
+# factorBuilder = FactorBuilder(featureBuilder, config_filepath)
+
+symbols = ['510310.SH']
+featBuilderDict = {}
+facBuilderDict = {}
 config_filepath = r'C:\Users\12552\PycharmProjects\FlowDataTradeSystem\factor\factors_config.yml'
-factorBuilder = FactorBuilder(featureBuilder, config_filepath)
+for symbol in symbols:
+    featBuilderDict[symbol] = FeatureBuilder()
+    facBuilderDict[symbol] = FactorBuilder(featBuilderDict[symbol], config_filepath)
+
 
 with open(config_filepath, 'r') as f:
     factors_info = yaml.load(f, Loader=yaml.FullLoader)
@@ -51,8 +60,7 @@ context = {
     'vol': 10000
 }
 
-
-strategy = StrategyA(featureBuilder, factorBuilder, context=context)
+strategy = StrategyA(featBuilderDict, facBuilderDict, context=context)
 
 snap_dh = dh.SnapshotDataHandler()
 snap_dh.subscribe(strategy.on_quote)
@@ -79,7 +87,7 @@ def test_trade_feature():
         if data.data_type == MarketDataType.Transaction:
             td_dh.publish(None, data)
         if index % 10 == 0:
-            strategy.feature_builder.build_transaction_features(pd.to_datetime('2024-01-01'))
+            strategy.feature_builderDict['510310.SH'].build_transaction_features(pd.to_datetime('2024-01-01'))
     # print(strategy.feature_builder.history_trade_feat_data)
 
 if __name__ == "__main__":

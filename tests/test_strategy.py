@@ -4,7 +4,8 @@ from pykungfu import wingchun as wc
 import yaml
 import pandas as pd
 import sys, os
-sys.path.insert(0, r"C:\Users\wangzirui_cx\PycharmProjects\KungfuTest")
+basedir = r"C:\Users\wangzirui_cx\PycharmProjects\KungfuTest"
+sys.path.insert(0, basedir)
 from kungfu.wingchun.constants import *
 from FlowDataTradeSystem.feature.feature_builder import FeatureBuilder
 from FlowDataTradeSystem.factor.factor_builder import FactorBuilder
@@ -34,14 +35,21 @@ VOLUME = 200
 EXCHANGE = Exchange.SSE
 
 # 动态加载所有因子模块
-factors_dir = r"C:\Users\wangzirui_cx\PycharmProjects\KungfuTest\FlowDataTradeSystem\factor\factors"
+factors_dir = rf"{basedir}\FlowDataTradeSystem\factor\factors"
 
 # 加载factor/factors下的因子
 load_factors_from_directory(os.path.join(factors_dir, ""), "factor/factors")
 
-featureBuilder = FeatureBuilder()
-config_filepath = r'C:\Users\wangzirui_cx\PycharmProjects\KungfuTest\FlowDataTradeSystem\factor\factors_config.yml'
-factorBuilder = FactorBuilder(featureBuilder, config_filepath)
+# featureBuilder = FeatureBuilder()
+# config_filepath = rf'{basedir}\FlowDataTradeSystem\factor\factors_config.yml'
+# factorBuilder = FactorBuilder(featureBuilder, config_filepath)
+
+featBuilderDict = {}
+facBuilderDict = {}
+config_filepath = rf'{basedir}\FlowDataTradeSystem\factor\factors_config.yml'
+for ticker in tickers:
+    featBuilderDict[ticker] = FeatureBuilder()
+    facBuilderDict[ticker] = FactorBuilder(featBuilderDict[ticker], config_filepath)
 
 def get_model_dict(factors_name):
     # model_dict = ModelBase.create_model("lin_model", "")
@@ -91,6 +99,10 @@ def on_quote(context, quote, location,dest):
     if quote.instrument_id in tickers:
         time = context.strftime(context.now())
         data = prepareQuote(quote, time)
+
+        featureBuilder = featBuilderDict[quote.instrument_id]
+        factorBuilder = facBuilderDict[quote.instrument_id]
+
         featureBuilder.build_snap_features(data)
         results = factorBuilder.compute_all_factors()
         symbol_ = data['symbol']
@@ -152,11 +164,13 @@ def on_trade(context, trade, location, dest):
 
 def on_transaction(context, transaction, location, dest):
     context.log.info('[on_transaction] {}'.format(transaction))
+    featureBuilder = featBuilderDict[transaction.instrument_id]
     trade = prepareTrade(transaction)
     featureBuilder.add_transaction(trade)
 
 def on_entrust(context, entrust, location, dest):
     context.log.info('[on_entrust] {}'.format(entrust))
+    featureBuilder = featBuilderDict[entrust.instrument_id]
     order = prepareOrder(entrust)
     if order['datetime'].time() < pd.to_datetime('09:30:00').time():
         featureBuilder.entrust_dict_by_appl_seq[order['appl_seq_num']] = order
