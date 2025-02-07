@@ -244,7 +244,7 @@ def cancel_order(context, order):
 
 
 # 自定义撤单并对未成交的进行补充下单的回调函数
-def candel_reorder(context, order):
+def cancel_reorder(context, order):
     order_id = order.order_id
     action_id = context.cancel_order(order_id)
     if action_id > 0:
