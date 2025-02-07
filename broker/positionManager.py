@@ -1,6 +1,6 @@
 from collections import defaultdict
 from loguru import logger as log
-from myenums.order_enum import TradeDirectionEnum
+from FlowDataTradeSystem.myenums.order_enum import TradeDirectionEnum
 
 
 class PositionManager:

@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
-from order.order import Order
+from FlowDataTradeSystem.order.order import Order
 import uuid
-from myenums.order_enum import *
-from order.orderManager import OrderManager
-from broker.brokerManager import BrokerManager
+from FlowDataTradeSystem.myenums.order_enum import *
+from FlowDataTradeSystem.order.orderManager import OrderManager
+from FlowDataTradeSystem.broker.brokerManager import BrokerManager
 
 
 class Strategy(ABC):

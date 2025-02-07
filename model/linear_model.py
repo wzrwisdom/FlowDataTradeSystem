@@ -1,5 +1,5 @@
 import pickle
-from .model_base import ModelBase
+from FlowDataTradeSystem.model.model_base import ModelBase
 import numpy as np
 import statsmodels.api as sm
 

@@ -1,6 +1,6 @@
 import time
 
-from strategy.strategy import Strategy
+from FlowDataTradeSystem.strategy.strategy import Strategy
 from loguru import logger as log
 import pandas as pd
 class StrategyA(Strategy):

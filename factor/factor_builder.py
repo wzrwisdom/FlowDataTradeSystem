@@ -1,4 +1,4 @@
-from factor.factors.base import Factor
+from FlowDataTradeSystem.factor.factors.base import Factor
 
 from loguru import logger as log
 from collections import deque

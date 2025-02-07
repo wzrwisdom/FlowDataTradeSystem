@@ -14,4 +14,5 @@ def load_factors_from_directory(directory: str, package: str):
             module_name = filename[:-3]
             package_name = package.replace("/", ".")
             # 动态导入模块
-            importlib.import_module(f"{package_name}.{module_name}")
+            print(f"FlowDataTradeSystem.{package_name}.{module_name}")
+            importlib.import_module(f"FlowDataTradeSystem.{package_name}.{module_name}")

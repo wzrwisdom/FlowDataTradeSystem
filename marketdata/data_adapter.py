@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
-from myenums import *
-from marketdata.marketdata import MarketData
+from FlowDataTradeSystem.myenums import *
+from FlowDataTradeSystem.marketdata.marketdata import MarketData
 
 class DataAdapter(ABC):
 

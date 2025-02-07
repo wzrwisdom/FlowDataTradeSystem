@@ -1,7 +1,7 @@
-from idlelib import window
 
-from .base import Factor
-from ..factor_func import *
+import numpy as np
+from FlowDataTradeSystem.factor.factors.base import Factor
+from FlowDataTradeSystem.factor.factor_func import *
 import pandas as pd
 from sortedcontainers import SortedList
 import talib as ta
@@ -291,7 +291,7 @@ class EnBSPriceDiffFactor(Factor):
         avg_p = builder.get_recent_features(name="bs_avg_price", window=1)
 
         res = (fill_na_v2(en_buy_p, b1) - fill_na_v2(en_sell_p, s1)) / avg_p
-        return res.iloc[-1].item()
+        return res.iloc[-1].item() if not np.isnan(res.iloc[-1]) else None
 
 
 class EnSellRet10Factor(Factor):

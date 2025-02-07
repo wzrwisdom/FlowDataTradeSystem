@@ -1,4 +1,4 @@
-from myenums import *
+from FlowDataTradeSystem.myenums import *
 
 class MarketData:
     '''
