@@ -20,7 +20,7 @@ class PositionManager:
         :param side: 'buy' 或 'sell'
         """
         side = order.side
-        symbol = order.ticker
+        symbol = order.symbol
         quantity = order.quantity
         price = order.price
         if side == TradeDirectionEnum.Buy:

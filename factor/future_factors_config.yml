@@ -1,0 +1,119 @@
+en_b_p10_tsrank_future:
+  window: 120
+
+
+en_s_sumprice_ratio_future:
+  window: 60
+
+
+MACD_future:
+
+
+WILLR_future:
+  window: 60
+
+RSI_future:
+
+DeriPBid1_future:
+  shift: 6
+
+
+APO_future:
+  matype: 1
+
+
+WCL_future:
+  window: 60
+  shift: 60
+
+Momentum_future:
+
+TRIMA_future:
+  shift: 120
+
+clh_delta_future:
+  window: 360
+  shift: 120
+
+
+clh_future:
+  window: 1200
+
+AlligatorLips_future:
+  window: 30
+  shift: 60
+
+ret_v_corr_future:
+  window: 600
+
+OB_price_2derivative_future:
+  shift: 120
+
+best_v_imbalance_tsrank_future:
+  shift: 60
+  window: 60
+
+AroonOsc_future:
+  window: 120
+  timeperiod: 240
+
+STOCHRSIfastd_future:
+
+Detrend2_future:
+
+STOCHRSIfastk_future:
+
+td_p_v_ratio_future:
+  window1: 1200
+  window2: 120
+
+trade_vol_in_high_price_future:
+  window: 360
+  perc: 0.7
+
+td_ret_v_prod_future:
+  window: 1200
+
+pv_corr_future:
+  window: 120
+
+KeltnerChannelLower_future:
+  window: 120
+  timeperiod1: 240
+  timeperiod2: 60
+
+bs_power_rough_future:
+  window: 60
+
+
+en_bs_price_diff_future:
+
+DPO_future:
+  timeperiod: 360
+
+LI_future:
+  window: 1200
+
+en_b_price_std_future:
+  window1: 1200
+  window2: 60
+
+en_s_price_tsrank_future:
+  window: 600
+
+ATR_future:
+  window: 120
+  timeperiod: 240
+
+bs_pv1_tsrank_future:
+  window: 360
+
+VLI_future:
+  window: 600
+
+en_b_price_tsrank_future:
+  window: 600
+
+ret_v_prod_future:
+  window: 20
+

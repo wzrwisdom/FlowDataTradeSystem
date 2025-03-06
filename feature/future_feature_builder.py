@@ -9,7 +9,7 @@ class FutureFeatureBuilder:
         self.maxlen = 1000
         self.history_feat_dict = {}
         self.history_time = deque(maxlen=self.maxlen)
-        self.perivous_snap_feat = {}
+        self.previous_snap_feat = {}
 
 
     def get_recent_features(self, name, window):
@@ -30,18 +30,37 @@ class FutureFeatureBuilder:
 
     def build_snap_features(self, data):
         features = {}
-        vwap = data['total_turnover'] / (300 * data['volume'])
+
+        if len(self.previous_snap_feat) == 0:
+            turnover = data['total_turnover']
+            total_vol = data['vol']
+            vol = total_vol
+            try:
+                vwap = turnover / (300 * vol)
+            except:
+                vwap = self.previous_snap_feat.get('vwap', data['last'])
+        else:
+            turnover = data['total_turnover'] - self.previous_snap_feat['total_turnover']
+            total_vol = data['vol']
+            vol = total_vol - self.previous_snap_feat['tot_vol']
+            try:
+                vwap = turnover / (300 * vol)
+            except:
+                vwap = self.previous_snap_feat.get('vwap', data['last'])
 
         features.update({
             'datetime': data['datetime'],
             'last': data['last'],
-            'vol': data['volume'],
+            'vol': vol,
+            'tot_vol': total_vol,
             's1': data['s1'],
             'b1': data['b1'],
             'sv1_sum': data['sv1_sum'],
             'bv1_sum': data['bv1_sum'],
             'bs_avg_price': data['bs_avg_price'],
             'vwap': vwap,
+            'total_turnover': data['total_turnover'],
+            'turnover': turnover
         })
 
         self.history_time.append(features['datetime'])

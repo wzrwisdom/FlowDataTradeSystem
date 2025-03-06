@@ -893,7 +893,7 @@ class EnBuyPriceStdFactor(Factor):
 
         std_v = ts_std(en_buy_p, window2)
         res = ts_rank(std_v, window1)
-        return res.iloc[-1].item()
+        return res.iloc[-1].item() if not np.isnan(res.iloc[-1]) else None
 
 
 class AwesomeOscillatorFactor(Factor):

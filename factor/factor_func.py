@@ -7,6 +7,10 @@ def move(x, shift: int = 1):
 
 
 def delta(x, shift):
+    # try:
+    #     res = x.diff(shift)
+    # except TypeError as e:
+    #     return 0
     return x.diff(shift)
 
 
