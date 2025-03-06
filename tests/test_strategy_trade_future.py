@@ -4,11 +4,12 @@ import yaml
 sys.path.insert(0, "../../")
 
 from FlowDataTradeSystem.marketdata import datahandler as dh
-from FlowDataTradeSystem.strategy.strategyA import StrategyA
+from FlowDataTradeSystem.strategy.strategyB import StrategyB
 from FlowDataTradeSystem.myenums.market_data_type import MarketDataType
 from FlowDataTradeSystem.marketdata.data_adapter import CounterDataFetcher
-from FlowDataTradeSystem.marketdata.counters.counterA import CounterAAdapter
+from FlowDataTradeSystem.marketdata.counters.counterFuture import CounterFutureAdapter
 from FlowDataTradeSystem.feature.feature_builder import FeatureBuilder
+from FlowDataTradeSystem.feature.future_feature_builder import FutureFeatureBuilder
 from FlowDataTradeSystem.factor.factor_builder import FactorBuilder
 from FlowDataTradeSystem.factor.factor_loader import load_factors_from_directory
 from FlowDataTradeSystem.model.model_base import ModelBase
@@ -16,9 +17,10 @@ from utils.data_input import *
 
 # 动态加载所有因子模块
 factors_dir = os.path.join("../", "factor/factors")
-
 # 加载factor/factors下的因子
 load_factors_from_directory(os.path.join(factors_dir, ""), "factor/factors")
+factors_dir = os.path.join("../", "factor/future_factors")
+load_factors_from_directory(os.path.join(factors_dir, ""), "factor/future_factors")
 
 def get_model_dict(factors_name):
     # model_dict = ModelBase.create_model("lin_model", "")
@@ -36,12 +38,18 @@ def get_model_dict(factors_name):
 # factorBuilder = FactorBuilder(featureBuilder, config_filepath)
 
 symbols = ['510310.SH']
+future_symbols = ['IF']
 featBuilderDict = {}
 facBuilderDict = {}
 config_filepath = r'C:\Users\12552\PycharmProjects\FlowDataTradeSystem\factor\factors_config.yml'
-for symbol in symbols:
-    featBuilderDict[symbol] = FeatureBuilder()
-    facBuilderDict[symbol] = FactorBuilder(featBuilderDict[symbol], config_filepath)
+future_config_filepath = r'C:\Users\12552\PycharmProjects\FlowDataTradeSystem\factor\future_factors_config.yml'
+# for symbol in symbols:
+#     featBuilderDict[symbol] = FeatureBuilder()
+#     facBuilderDict[symbol] = FactorBuilder(featBuilderDict[symbol], config_filepath)
+
+for symbol in future_symbols:
+    featBuilderDict[symbol] = FutureFeatureBuilder()
+    facBuilderDict[symbol] = FactorBuilder(featBuilderDict[symbol], future_config_filepath)
 
 
 with open(config_filepath, 'r') as f:
@@ -60,7 +68,7 @@ context = {
     'vol': 10000
 }
 
-strategy = StrategyA(featBuilderDict, facBuilderDict, context=context)
+strategy = StrategyB(featBuilderDict, facBuilderDict, context=context)
 
 snap_dh = dh.SnapshotDataHandler()
 snap_dh.subscribe(strategy.on_quote)
@@ -91,17 +99,21 @@ dh.DataHandler._registry['TransactionDataHandler'] = td_dh
 #     # print(strategy.feature_builder.history_trade_feat_data)
 
 def test_trade():
-    counter = CounterAAdapter()
+    counter = CounterFutureAdapter()
     data_fetcher = CounterDataFetcher(counter)
 
-    for data in load_all_data(data_fetcher):
+    for data in load_future_data(data_fetcher):
+        # print(data)
         dh.DataHandler.publish_data(context=None, data=data)
 
+# LI td_p_v_ratio td_ret_v_prod pv_corr en_b_price_std en_s_price_tsrank ATR VLI
+
 if __name__ == "__main__":
-    counter = CounterAAdapter()
+    counter = CounterFutureAdapter()
     data_fetcher = CounterDataFetcher(counter)
 
-    for data in load_all_data(data_fetcher):
+    for data in load_future_data(data_fetcher):
+        # print(data)
         dh.DataHandler.publish_data(context=None, data=data)
 
     # ## 测试构建成交特征的功能

@@ -30,6 +30,133 @@ def load_order_info(data_fetcher, filepath, max_num=100):
         yield data_fetcher.fetch_data(MarketDataType.Entrust, row)
 
 
+def load_future_data(data_fetcher):
+    snap_filepath = "data/future_snap.csv"
+    snap_df = pd.read_csv(snap_filepath)
+    snap_df['time'] = snap_df['time'].astype(str)
+    snap_df['time'] = pd.to_datetime(snap_df['time'].str.zfill(9), format='%H%M%S%f').dt.strftime('%H:%M:%S.%f')
+    snap_df['time'] = pd.to_timedelta(snap_df['time'])
+    snap_df['tradetime'] = pd.to_datetime(snap_df['date'].astype(str)) + pd.to_timedelta(snap_df['time'])
+    condition = snap_df['tradetime'].dt.time >= pd.to_datetime('09:30:00').time()
+    snap_df = snap_df[condition]
+
+    # 创建迭代器
+    snap_iter = iter(snap_df.iterrows())
+    _, cur_snap = next(snap_iter)
+
+    exclude_start = pd.Timestamp("11:30:00").time()
+    exclude_end = pd.Timestamp("13:00:00").time()
+    # 生成每隔3秒的时间序列
+    all_times = pd.date_range(start="09:30:00", end="09:37:00", freq="500ms").time
+    # all_times = pd.date_range(start="09:30:00", end="14:57:00", freq="500ms").time
+
+    filtered_times = [t for t in all_times if t <= exclude_start or t >= exclude_end]
+    last_snap = None
+    for time in filtered_times:
+        if time < pd.to_datetime('09:30:00').time():
+            continue
+        log.info(f"Processing snapshot at {time}")
+        # 用上一个快照信息填补快照数据的空缺，频率为3s。
+        if time >= cur_snap.tradetime.time() and time > (cur_snap.tradetime - pd.Timedelta('500ms')).time():
+            cur_snap.tradetime = cur_snap.tradetime.replace(hour=time.hour, minute=time.minute, second=time.second)
+            cur_snap.time = str(time)
+            cur_snap['symbol'] = 'IF'
+            yield data_fetcher.fetch_data(MarketDataType.Snapshot, cur_snap)
+            last_snap = cur_snap
+            _, cur_snap = next(snap_iter)
+        else:
+            if last_snap is not None:
+                yield data_fetcher.fetch_data(MarketDataType.Snapshot, last_snap)
+            else:
+                print("There is no snap data!!!")
+
+
+def load_future_and_fund_data(data_fetcher):
+    future_snap_filepath = "data/future_snap.csv"
+    ft_snap_df = pd.read_csv(future_snap_filepath)
+    ft_snap_df['time'] = ft_snap_df['time'].astype(str)
+    ft_snap_df['time'] = pd.to_datetime(ft_snap_df['time'].str.zfill(9), format='%H%M%S%f').dt.strftime('%H:%M:%S.%f')
+    ft_snap_df['time'] = pd.to_timedelta(ft_snap_df['time'])
+    ft_snap_df['tradetime'] = pd.to_datetime(ft_snap_df['date'].astype(str)) + pd.to_timedelta(ft_snap_df['time'])
+    ft_snap_df['markettype'] = 'Future'
+    ft_snap_df['symbol'] = 'IF'
+    condition = ft_snap_df['tradetime'].dt.time >= pd.to_datetime('09:30:00').time()
+    ft_snap_df = ft_snap_df[condition]
+
+    snap_filepath = 'data/snap.csv'
+    trade_filepath = 'data/trade.csv'
+    order_filepath = 'data/order.csv'
+
+    snap_df = pd.read_csv(snap_filepath)
+    trade_df = pd.read_csv(trade_filepath)
+    order_df = pd.read_csv(order_filepath)
+
+    snap_df['markettype'] = 'Fund'
+    snap_df = snap_df[snap_df.code == '510310.SH']
+    trade_df = trade_df[trade_df.code == '510310.SH']
+    order_df = order_df[order_df.code == '510310.SH']
+
+    snap_df['tradetime'] = pd.to_datetime(snap_df['date']) + pd.to_timedelta(snap_df['time'])
+    trade_df['tradetime'] = pd.to_datetime(trade_df['date']) + pd.to_timedelta(trade_df['time'])
+    order_df['tradetime'] = pd.to_datetime(order_df['date']) + pd.to_timedelta(order_df['time'])
+
+    condition = ft_snap_df['tradetime'].dt.time >= pd.to_datetime('09:30:00').time()
+    ft_snap_df = ft_snap_df[condition]
+    condition = snap_df['tradetime'].dt.time >= pd.to_datetime('09:30:00').time()
+    snap_df = snap_df[condition]
+    condition = trade_df['tradetime'].dt.time >= pd.to_datetime('09:30:00').time()
+    trade_df = trade_df[condition]
+
+    # 创建迭代器
+    trade_iter = iter(trade_df.iterrows())
+    order_iter = iter(order_df.iterrows())
+    snap_iter = iter(snap_df.iterrows())
+    ft_snap_iter = iter(ft_snap_df.iterrows())
+    # 初始化当前交易和订单数据
+    _, cur_trade = next(trade_iter)
+    _, cur_order = next(order_iter)
+    _, cur_snap = next(snap_iter)
+    _, cur_ft_snap = next(ft_snap_iter)
+
+    exclude_start = pd.Timestamp("11:30:00").time()
+    exclude_end = pd.Timestamp("13:00:00").time()
+    # 生成每隔3秒的时间序列
+    # all_times = pd.date_range(start="09:30:00", end="10:30:00", freq="3s").time
+    all_times = pd.date_range(start="09:30:00", end="14:57:00", freq="3S").time
+
+    # 排除11:30到13:00的时间
+    filtered_times = [t for t in all_times if t <= exclude_start or t >= exclude_end]
+    last_snap = None
+    for time in filtered_times:
+        if time < pd.to_datetime('09:30:00').time():
+            continue
+        log.info(f"Processing snapshot at {time}")
+        while cur_trade.tradetime.time() <= time or cur_order.tradetime.time() <= time or cur_ft_snap.tradetime.time() <= time:
+            if cur_order.tradetime.time() <= time:
+                yield data_fetcher.fetch_data(MarketDataType.Entrust, cur_order)
+                _, cur_order = next(order_iter)
+            elif cur_trade.tradetime.time() <= time:
+                yield data_fetcher.fetch_data(MarketDataType.Transaction, cur_trade)
+                _, cur_trade = next(trade_iter)
+            else:
+                yield data_fetcher.fetch_data(MarketDataType.Snapshot, cur_ft_snap)
+                _, cur_ft_snap = next(ft_snap_iter)
+
+
+        # 用上一个快照信息填补快照数据的空缺，频率为3s。
+        if time >= cur_snap.tradetime.time() and time > (cur_snap.tradetime - pd.Timedelta('3s')).time():
+            cur_snap.tradetime = cur_snap.tradetime.replace(hour=time.hour, minute=time.minute, second=time.second)
+            cur_snap.time = str(time)
+            yield data_fetcher.fetch_data(MarketDataType.Snapshot, cur_snap)
+            last_snap = cur_snap
+            _, cur_snap = next(snap_iter)
+        else:
+            if last_snap is not None:
+                yield data_fetcher.fetch_data(MarketDataType.Snapshot, last_snap)
+            else:
+                print("There is no snap data!!!")
+
+
 def load_all_data(data_fetcher):
     snap_filepath = 'data/snap.csv'
     trade_filepath = 'data/trade.csv'
@@ -66,8 +193,8 @@ def load_all_data(data_fetcher):
     exclude_start = pd.Timestamp("11:30:00").time()
     exclude_end = pd.Timestamp("13:00:00").time()
     # 生成每隔3秒的时间序列
-    all_times = pd.date_range(start="09:30:00", end="10:30:00", freq="3s").time
-    # all_times = pd.date_range(start="09:30:00", end="14:57:00", freq="3S").time
+    # all_times = pd.date_range(start="09:30:00", end="10:30:00", freq="3s").time
+    all_times = pd.date_range(start="09:30:00", end="14:57:00", freq="3S").time
 
     # 排除11:30到13:00的时间
     filtered_times = [t for t in all_times if t <= exclude_start or t >= exclude_end]
