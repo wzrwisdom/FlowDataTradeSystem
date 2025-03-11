@@ -122,7 +122,7 @@ def load_future_and_fund_data(data_fetcher):
     exclude_end = pd.Timestamp("13:00:00").time()
     # 生成每隔3秒的时间序列
     # all_times = pd.date_range(start="09:30:00", end="10:30:00", freq="3s").time
-    all_times = pd.date_range(start="09:30:00", end="14:57:00", freq="3S").time
+    all_times = pd.date_range(start="09:30:00", end="14:57:00", freq="3s").time
 
     # 排除11:30到13:00的时间
     filtered_times = [t for t in all_times if t <= exclude_start or t >= exclude_end]

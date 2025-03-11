@@ -47,6 +47,8 @@ future_config_filepath = r'C:\Users\12552\PycharmProjects\FlowDataTradeSystem\fa
 #     featBuilderDict[symbol] = FeatureBuilder()
 #     facBuilderDict[symbol] = FactorBuilder(featBuilderDict[symbol], config_filepath)
 
+
+
 for symbol in future_symbols:
     featBuilderDict[symbol] = FutureFeatureBuilder()
     facBuilderDict[symbol] = FactorBuilder(featBuilderDict[symbol], future_config_filepath)

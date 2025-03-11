@@ -12,6 +12,7 @@ class FactorBuilder:
         self.factors = []
         self.register_factors_by_config(config_filepath)
         self.history_facComb_bySym = {}
+        self.results = None
 
     def add_facComb(self, symbol, facComb):
         if symbol not in self.history_facComb_bySym.keys():
@@ -58,8 +59,11 @@ class FactorBuilder:
         # # 打印或存储耗时信息
         # for factor_name, elapsed_time in computation_times.items():
         #     print(f"Factor '{factor_name}' computed in {elapsed_time:.4f} seconds")
-
+        self.results = results
         return results
+
+    def get_results(self):
+        return self.results
 
     def preprocess(self, filepath, judge_col, no_winsorize_factors, factors):
         # 因子预处理的参数文件读取 可能不要放在这儿 避免重复加载

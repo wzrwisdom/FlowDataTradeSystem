@@ -8,6 +8,7 @@ class CounterFutureAndFundAdapter(DataAdapter):
         if raw_data['markettype'] == 'Future':
             """适配快照数据"""
             return {
+                'markettype': 'Future',
                 'symbol': raw_data['symbol'],
                 'datetime': raw_data['tradetime'],
                 'last': raw_data['last']/10000,
@@ -35,6 +36,7 @@ class CounterFutureAndFundAdapter(DataAdapter):
                 bid_volumes.append(raw_data[f'bid_size{i}'])
                 ask_volumes.append(raw_data[f'ask_size{i}'])
             return {
+                'markettype': 'Fund',
                 "symbol": raw_data["code"],
                 "datetime": date + time,
                 "last_price": raw_data["Last"],

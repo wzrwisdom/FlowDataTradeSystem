@@ -4,7 +4,7 @@ import yaml
 sys.path.insert(0, "../../")
 
 from FlowDataTradeSystem.marketdata import datahandler as dh
-from FlowDataTradeSystem.strategy.strategyB import StrategyB
+from FlowDataTradeSystem.strategy.strategyC import StrategyC
 from FlowDataTradeSystem.myenums.market_data_type import MarketDataType
 from FlowDataTradeSystem.marketdata.data_adapter import CounterDataFetcher
 from FlowDataTradeSystem.marketdata.counters.counterFutureAndFund import CounterFutureAndFundAdapter
@@ -27,7 +27,7 @@ def get_model_dict(factors_name):
     model_dict = {}
     folder_path = './data/'
     for filename in os.listdir(folder_path):
-        if os.path.isfile(os.path.join(folder_path, filename)) and 'lin_model_allfac_test' in filename:
+        if os.path.isfile(os.path.join(folder_path, filename)) and 'lin_model_allfac_test_withfuture' in filename:
             symbol = filename[-9:]
             model = ModelBase.create_model("lin_model", os.path.join(folder_path, filename), factors_name)
             model_dict[symbol] = model
@@ -43,24 +43,31 @@ featBuilderDict = {}
 facBuilderDict = {}
 config_filepath = r'C:\Users\12552\PycharmProjects\FlowDataTradeSystem\factor\factors_config.yml'
 future_config_filepath = r'C:\Users\12552\PycharmProjects\FlowDataTradeSystem\factor\future_factors_config.yml'
-# for symbol in symbols:
-#     featBuilderDict[symbol] = FeatureBuilder()
-#     facBuilderDict[symbol] = FactorBuilder(featBuilderDict[symbol], config_filepath)
+for symbol in symbols:
+    featBuilderDict[symbol] = FeatureBuilder()
+    facBuilderDict[symbol] = FactorBuilder(featBuilderDict[symbol], config_filepath)
 
 for symbol in future_symbols:
     featBuilderDict[symbol] = FutureFeatureBuilder()
     facBuilderDict[symbol] = FactorBuilder(featBuilderDict[symbol], future_config_filepath)
 
-
+factors_name = []
 with open(config_filepath, 'r') as f:
     factors_info = yaml.load(f, Loader=yaml.FullLoader)
-factors_name = list(factors_info.keys())
+fund_factors_name = list(factors_info.keys())
+for name in fund_factors_name:
+    factors_name.append(name+"_fund")
+with open(future_config_filepath, 'r') as f:
+    factors_info = yaml.load(f, Loader=yaml.FullLoader)
+future_factors_name = list(factors_info.keys())
+factors_name += future_factors_name
+
 model_dict = get_model_dict(factors_name)
 context = {
-    'preprocess_filepath': './data/data_process_params/{}.yml',
+    'preprocess_filepath': './data/data_process_params_future_and_fund/{}.yml',
     'model_dict': model_dict,
-    'judge_col': 'spread1',
-    'no_winsorize_factors': ['DeriPBid1', 'DeriPAsk1'],
+    'judge_col': 'spread1_fund',
+    'no_winsorize_factors': ['DeriPBid1_future', 'DeriPBid1_fund'],
     'buy_threshold': 0.00029436267446151,
     'sell_threshold': -0.00019256103582417826,
     'close_buy_threshold': -0.00015317740950684968,
@@ -68,7 +75,7 @@ context = {
     'vol': 10000
 }
 
-strategy = StrategyB(featBuilderDict, facBuilderDict, context=context)
+strategy = StrategyC(featBuilderDict, facBuilderDict, context=context)
 
 snap_dh = dh.SnapshotDataHandler()
 snap_dh.subscribe(strategy.on_quote)

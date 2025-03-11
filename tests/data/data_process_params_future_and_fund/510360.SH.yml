@@ -1,0 +1,455 @@
+APO_future:
+  fac_mean: -0.0003644388717463302
+  fac_std: 0.16870423535100626
+  lower_quantile: -0.4774753411914389
+  upper_quantile: 0.5123540962109471
+ATR_future:
+  fac_mean: 2.775061408850157
+  fac_std: 1.1922709717829645
+  lower_quantile: 1.19208462495457
+  upper_quantile: 7.611841852353928
+AlligatorLips_future:
+  fac_mean: -8.356494140035719e-07
+  fac_std: 0.00035588111017423064
+  lower_quantile: -0.0010111644391309338
+  upper_quantile: 0.001099865611591815
+AlligatorTeeth_fund:
+  fac_mean: -7.466425498011526e-08
+  fac_std: 0.0003445368657600568
+  lower_quantile: -0.0009622589631824674
+  upper_quantile: 0.001063320338033325
+AroonDown_fund:
+  fac_mean: 84.16286956294027
+  fac_std: 28.517122213116327
+  lower_quantile: 2.5
+  upper_quantile: 100.0
+AroonOsc_future:
+  fac_mean: -1.886299952862058
+  fac_std: 66.84267414549888
+  lower_quantile: -99.58333333333334
+  upper_quantile: 99.58333333333334
+AwesomeOsc_fund:
+  fac_mean: -4.5821011384728056e-07
+  fac_std: 0.00030008605740901843
+  lower_quantile: -0.0008382236256319064
+  upper_quantile: 0.0008970586692584881
+DEMA_fund:
+  fac_mean: -6.931291741036448e-07
+  fac_std: 0.00043951121440296507
+  lower_quantile: -0.0011739860103807099
+  upper_quantile: 0.001273367943768126
+DPO_future:
+  fac_mean: 0.0006873969527260509
+  fac_std: 0.9629133984034314
+  lower_quantile: -2.6838888889020747
+  upper_quantile: 2.7805555555570027
+DeriPBid1_fund:
+  fac_mean: 1.038165294669528e-08
+  fac_std: 0.0003774111472836218
+  lower_quantile: 0.006666666666666667
+  upper_quantile: 0.9966666666666667
+DeriPBid1_future:
+  fac_mean: -4.184657523823513e-05
+  fac_std: 0.46612149179499734
+  lower_quantile: 15.896900157426769
+  upper_quantile: 84.34128537990668
+Detrend2_future:
+  fac_mean: 0.12638523145337827
+  fac_std: 7.205585902123535
+  lower_quantile: -21.69095464952638
+  upper_quantile: 22.515797805181027
+HCP_fund:
+  fac_mean: 0.4636322825212279
+  fac_std: 0.3586585842152649
+  lower_quantile: 0.0
+  upper_quantile: 1.003272038855033
+HCVOL_fund:
+  fac_mean: 0.36074048257379426
+  fac_std: 0.3717279174848987
+  lower_quantile: 0.0
+  upper_quantile: 1.0
+KeltnerChannelLower_future:
+  fac_mean: -0.0016154535507032796
+  fac_std: 0.0007713883039725659
+  lower_quantile: -0.004841303929779618
+  upper_quantile: -0.0006066177036126364
+LCP_fund:
+  fac_mean: 0.4748100724610064
+  fac_std: 0.3647404912078598
+  lower_quantile: 0.0
+  upper_quantile: 0.9987365289645264
+LCVOL_fund:
+  fac_mean: 0.3749068805337105
+  fac_std: 0.3806390444015517
+  lower_quantile: 0.0
+  upper_quantile: 1.0
+LI_future:
+  fac_mean: 0.0006343980151364247
+  fac_std: 0.00038757465891627957
+  lower_quantile: 0.00017605327009177042
+  upper_quantile: 0.002254650041935949
+MACD_future:
+  fac_mean: -0.0004780330885208098
+  fac_std: 0.200088634462709
+  lower_quantile: -0.562019631073772
+  upper_quantile: 0.6106419601348922
+Momentum_future:
+  fac_mean: 0.00010790620460489346
+  fac_std: 0.5807400987212232
+  lower_quantile: -1.599999999999909
+  upper_quantile: 1.7999999999997272
+OB_price_2derivative_future:
+  fac_mean: -9.29997279933466e-07
+  fac_std: 0.0007797361912716369
+  lower_quantile: -0.0023094906945552093
+  upper_quantile: 0.0022393125202264377
+OB_price_2derivative_tsrank_fund:
+  fac_mean: 0.5024485609977348
+  fac_std: 0.2790818819771635
+  lower_quantile: 0.015
+  upper_quantile: 0.995
+OB_price_spread_tsrank_fund:
+  fac_mean: 0.49961822272487744
+  fac_std: 0.16254765466389626
+  lower_quantile: 0.295
+  upper_quantile: 0.9733333333333334
+RSI_future:
+  fac_mean: 49.829518496957135
+  fac_std: 13.586159159072915
+  lower_quantile: 15.896900157426769
+  upper_quantile: 84.34128537990668
+STOCHRSIfastd_future:
+  fac_mean: 47.81877179585007
+  fac_std: 34.9847749874904
+  lower_quantile: -4.547473508864641e-13
+  upper_quantile: 100.00000000000051
+STOCHRSIfastk_future:
+  fac_mean: 47.82706419175251
+  fac_std: 45.84487795925472
+  lower_quantile: 0.0
+  upper_quantile: 100.00000000000001
+TRIMA_future:
+  fac_mean: -1.3769590093477648e-06
+  fac_std: 0.0005531479312186454
+  lower_quantile: -0.0015385948662282657
+  upper_quantile: 0.0017042224787016669
+TSI_fund:
+  fac_mean: -1.3979114087007374
+  fac_std: 23.86367486054677
+  lower_quantile: -63.96485677376594
+  upper_quantile: 59.48716837066019
+VLI_future:
+  fac_mean: 1.4907588831258927
+  fac_std: 0.3959898649610421
+  lower_quantile: 0.7604412259281585
+  upper_quantile: 2.9475050525304494
+WCL_future:
+  fac_mean: -8.138124179908771e-07
+  fac_std: 0.00032377220718036586
+  lower_quantile: -0.0009113088137587433
+  upper_quantile: 0.0009957633382950963
+WILLR_future:
+  fac_mean: -50.796317132751284
+  fac_std: 34.257666484755134
+  lower_quantile: -100.00000000000001
+  upper_quantile: 0.0
+best_v_imbalance_tsrank_fund:
+  fac_mean: 0.5024091887073877
+  fac_std: 0.2899629152312572
+  lower_quantile: 0.01
+  upper_quantile: 0.995
+best_v_imbalance_tsrank_future:
+  fac_mean: 0.5085184106129021
+  fac_std: 0.30529042141979534
+  lower_quantile: 0.016666666666666666
+  upper_quantile: 1.0
+bs_power_rough_fund:
+  fac_mean: 0.03573530524885866
+  fac_std: 0.2054721410180731
+  lower_quantile: -0.4611611558613453
+  upper_quantile: 0.5779085424839161
+bs_power_rough_future:
+  fac_mean: -0.0021331765972055438
+  fac_std: 0.21999913060949738
+  lower_quantile: -0.5701925205035979
+  upper_quantile: 0.5629839886004693
+bs_pv1_tsrank_future:
+  fac_mean: 0.5010249418569002
+  fac_std: 0.2900020198122452
+  lower_quantile: 0.008333333333333333
+  upper_quantile: 0.9944444444444445
+bs_td_power_rough_fund:
+  fac_mean: 0.00818779922292758
+  fac_std: 0.3137956809754748
+  lower_quantile: -0.7722668720138669
+  upper_quantile: 0.8509089449206386
+bs_v5_tsrank_fund:
+  fac_mean: 0.5134364845198021
+  fac_std: 0.30824826311601256
+  lower_quantile: 0.006666666666666667
+  upper_quantile: 0.9966666666666667
+can_en_v_ratio_fund:
+  fac_mean: 0.001482525118692665
+  fac_std: 0.009176477421655624
+  lower_quantile: -0.01842210169138977
+  upper_quantile: 0.054863959604681836
+can_en_v_ratio_tsrank_fund:
+  fac_mean: 0.49897068560683605
+  fac_std: 0.30646259254946756
+  lower_quantile: 0.006666666666666667
+  upper_quantile: 0.9966666666666667
+clh_delta_future:
+  fac_mean: 0.00025803897449103646
+  fac_std: 0.6625134730813738
+  lower_quantile: -1.618228956228822
+  upper_quantile: 1.5789473684209772
+clh_future:
+  fac_mean: 0.02975008346712043
+  fac_std: 0.6206791222653817
+  lower_quantile: -1.0
+  upper_quantile: 1.0
+close_adjusted_fund:
+  fac_mean: -0.05091529259359958
+  fac_std: 1.3150444178830176
+  lower_quantile: -2.7867831769206797
+  upper_quantile: 2.854476790367717
+close_ret_fund:
+  fac_mean: 3.597080505893531e-06
+  fac_std: 0.0010000340183184146
+  lower_quantile: -0.002544547014312948
+  upper_quantile: 0.003060404266324257
+ct_b_med_tsrank_fund:
+  fac_mean: 0.5040467853464016
+  fac_std: 0.28765362276983814
+  lower_quantile: 0.045
+  upper_quantile: 0.995
+en_b_p10_tsrank_fund:
+  fac_mean: 0.4963235664000562
+  fac_std: 0.35625961064467787
+  lower_quantile: 0.01
+  upper_quantile: 1.0
+en_b_p10_tsrank_future:
+  fac_mean: 0.49314425662487804
+  fac_std: 0.345624900888295
+  lower_quantile: 0.008333333333333333
+  upper_quantile: 1.0
+en_b_price_std_fund:
+  fac_mean: 0.4877521608603234
+  fac_std: 0.3200361622048383
+  lower_quantile: 0.0033333333333333335
+  upper_quantile: 1.0
+en_b_price_std_future:
+  fac_mean: 0.48230253722717953
+  fac_std: 0.2952298307366002
+  lower_quantile: 0.0033333333333333335
+  upper_quantile: 0.9983333333333333
+en_b_price_tsrank_fund:
+  fac_mean: 0.5003902863176055
+  fac_std: 0.29107931010215
+  lower_quantile: 0.01
+  upper_quantile: 0.9816666666666667
+en_b_price_tsrank_future:
+  fac_mean: 0.5005025251051665
+  fac_std: 0.28198462199518004
+  lower_quantile: 0.010833333333333334
+  upper_quantile: 0.99
+en_b_ret10_tsrank_fund:
+  fac_mean: 0.5025851984168118
+  fac_std: 0.2854247937323706
+  lower_quantile: 0.01
+  upper_quantile: 0.9933333333333333
+en_b_sumprice_tsrank_fund:
+  fac_mean: 0.4905674761512293
+  fac_std: 0.29375451830030586
+  lower_quantile: 0.006666666666666667
+  upper_quantile: 0.9933333333333333
+en_bs_price_diff_fund:
+  fac_mean: -0.003253479236292033
+  fac_std: 0.0015651418262151288
+  lower_quantile: -0.00741395075231242
+  upper_quantile: -0.0007607810606960272
+en_bs_price_diff_future:
+  fac_mean: -0.00012270390496895307
+  fac_std: 6.539400310888848e-05
+  lower_quantile: -0.0003728560775540076
+  upper_quantile: -5.389528146805845e-05
+en_buy_and_sell_vol_rela_ratio_fund:
+  fac_mean: 0.03352174817385993
+  fac_std: 0.30803176566944546
+  lower_quantile: -0.7092975903755395
+  upper_quantile: 0.7861681201077395
+en_s_p10_tsrank_fund:
+  fac_mean: 0.4950306877268924
+  fac_std: 0.35523422602940696
+  lower_quantile: 0.01
+  upper_quantile: 1.0
+en_s_price_tsrank_fund:
+  fac_mean: 0.5009836689141364
+  fac_std: 0.29045281914405063
+  lower_quantile: 0.036119299935773924
+  upper_quantile: 0.9908333333333333
+en_s_price_tsrank_future:
+  fac_mean: 0.4999739929910419
+  fac_std: 0.28177953043450893
+  lower_quantile: 0.011666666666666667
+  upper_quantile: 0.99
+en_s_ret10_tsrank_fund:
+  fac_mean: 0.5042992243984044
+  fac_std: 0.28336439117923545
+  lower_quantile: 0.008333333333333333
+  upper_quantile: 0.995
+en_s_ret5_tsrank_fund:
+  fac_mean: 0.5096830937198459
+  fac_std: 0.3161960532322442
+  lower_quantile: 0.016666666666666666
+  upper_quantile: 1.0
+en_s_sumprice_ratio_future:
+  fac_mean: 1.000074280342585
+  fac_std: 0.00022278808236665462
+  lower_quantile: 0.9993932161392743
+  upper_quantile: 1.0007370403394842
+en_s_sumprice_tsrank_fund:
+  fac_mean: 0.507970671849459
+  fac_std: 0.29433361544625936
+  lower_quantile: 0.01
+  upper_quantile: 0.9966666666666667
+en_v_order_inbalance_fund:
+  fac_mean: 0.03360427904180158
+  fac_std: 0.5103673552769583
+  lower_quantile: -1.0
+  upper_quantile: 1.0
+ohlc_rat_fund:
+  fac_mean: -0.04040635918743299
+  fac_std: 0.5597511346653247
+  lower_quantile: -1.0
+  upper_quantile: 1.0
+pv_corr_fund:
+  fac_mean: -0.01886496661232226
+  fac_std: 0.08971811032693446
+  lower_quantile: -0.24008107230515643
+  upper_quantile: 0.20452437403289742
+pv_corr_future:
+  fac_mean: -0.002552382096079671
+  fac_std: 0.19455702819584184
+  lower_quantile: -0.46171373218154727
+  upper_quantile: 0.4707381804130789
+ret_avgvol_corr_fund:
+  fac_mean: -0.02881273754795301
+  fac_std: 0.10359354479662088
+  lower_quantile: -0.30927857670997366
+  upper_quantile: 0.2613901771715208
+ret_kurt_fund:
+  fac_mean: 0.8390890435084616
+  fac_std: 1.4116190338985122
+  lower_quantile: -0.7326964401439993
+  upper_quantile: 7.1643800569756735
+ret_n_corr_fund:
+  fac_mean: -0.0937594346202977
+  fac_std: 0.2089327268011889
+  lower_quantile: -0.540781817703718
+  upper_quantile: 0.4009631242595532
+ret_skew_fund:
+  fac_mean: -0.02482978402833358
+  fac_std: 0.5447371691066506
+  lower_quantile: -1.9789924203324385
+  upper_quantile: 1.5226413027665018
+ret_v_corr_future:
+  fac_mean: -0.005404235437577407
+  fac_std: 0.06855898497967856
+  lower_quantile: -0.17753745751817215
+  upper_quantile: 0.1698578622276702
+ret_v_prod_fund:
+  fac_mean: 0.5026184389542167
+  fac_std: 0.10562507366614135
+  lower_quantile: 0.015
+  upper_quantile: 0.99
+ret_v_prod_future:
+  fac_mean: 0.5239276289553969
+  fac_std: 0.24521960665041284
+  lower_quantile: 0.05
+  upper_quantile: 1.0
+spread1_fund:
+  fac_mean: 0.0011301367849019797
+  fac_std: 0.0003364544500803922
+  lower_quantile: 0.0009999275207519531
+  upper_quantile: 0.002000093460083008
+td_and_en_vol_ratio_buy_dir_fund:
+  fac_mean: 0.006287705843123797
+  fac_std: 0.020424303439090675
+  lower_quantile: 0.0
+  upper_quantile: 0.14092183566303182
+td_and_en_vol_ratio_sell_dir_fund:
+  fac_mean: 0.006704820694942094
+  fac_std: 0.019103446553968638
+  lower_quantile: 0.0
+  upper_quantile: 0.12534234650433143
+td_buy_and_sell_vol_rela_ratio_fund:
+  fac_mean: 0.0979806578313447
+  fac_std: 0.6396980455727381
+  lower_quantile: -1.0
+  upper_quantile: 1.0
+td_buy_rank_fund:
+  fac_mean: 0.5047846897287672
+  fac_std: 0.13703709234212041
+  lower_quantile: 0.37
+  upper_quantile: 0.995
+td_p_v_ratio_fund:
+  fac_mean: 0.5054977390491301
+  fac_std: 0.19723164112492303
+  lower_quantile: 0.015
+  upper_quantile: 0.995
+td_p_v_ratio_future:
+  fac_mean: 0.5008454539490271
+  fac_std: 0.2960406299363585
+  lower_quantile: 0.004166666666666667
+  upper_quantile: 0.9966666666666667
+td_price_std_fund:
+  fac_mean: 0.5014652478421207
+  fac_std: 0.34967104136858507
+  lower_quantile: 0.016666666666666666
+  upper_quantile: 1.0
+td_ret_v_prod_future:
+  fac_mean: 0.5005962211722185
+  fac_std: 0.26173685282860704
+  lower_quantile: 0.010833333333333334
+  upper_quantile: 0.99
+td_sell_rank_fund:
+  fac_mean: 0.4987878934059727
+  fac_std: 0.11298943756087415
+  lower_quantile: 0.40166666666666667
+  upper_quantile: 0.99
+td_v_ratio_fund:
+  fac_mean: 0.5016044715052875
+  fac_std: 0.16426981482509367
+  lower_quantile: 0.018989377452068985
+  upper_quantile: 0.9791666666666666
+trade_avgvol_in_high_price_fund:
+  fac_mean: 0.45059330563475347
+  fac_std: 0.5481995328667674
+  lower_quantile: 0.0
+  upper_quantile: 2.4409998233527648
+trade_num_in_low_price_fund:
+  fac_mean: 0.3111112623803455
+  fac_std: 0.3476745885756862
+  lower_quantile: 0.0
+  upper_quantile: 1.0
+trade_vol_in_high_price_fund:
+  fac_mean: 0.14153482613189625
+  fac_std: 0.21934698582637577
+  lower_quantile: 0.0
+  upper_quantile: 0.8465944787316605
+trade_vol_in_high_price_future:
+  fac_mean: 0.37227722226013205
+  fac_std: 0.3063287096003453
+  lower_quantile: 0.0
+  upper_quantile: 0.9841862922723807
+wb10_tsrank_fund:
+  fac_mean: 0.5189293253657487
+  fac_std: 0.3118762371505459
+  lower_quantile: 0.006666666666666667
+  upper_quantile: 0.9966666666666667
+wb1_tsrank_fund:
+  fac_mean: 0.5013880696646952
+  fac_std: 0.2929530878389634
+  lower_quantile: 0.0075
+  upper_quantile: 0.995

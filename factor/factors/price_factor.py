@@ -43,7 +43,7 @@ class ReturnVolProductFactor(Factor):
             self.state["previous_list"] = previous_list
 
             ranked = ts_rank(pd.Series(values), window)
-            return ranked.iloc[-1].item()
+            return ranked.iloc[-1].item() if not np.isnan(ranked.iloc[-1]) else None
         else:
             # 插入新价格
             new_val = (close.iloc[-1] - close.iloc[-2]) / close.iloc[-1] * vol.iloc[-1]
@@ -55,7 +55,7 @@ class ReturnVolProductFactor(Factor):
 
             # 获取排名 (归一化到 [0, 1])
             ranked = ts_rank(pd.Series(previous_list), window)
-            return ranked.iloc[-1].item()
+            return ranked.iloc[-1].item() if not np.isnan(ranked.iloc[-1]) else None
 
 
 class WB1Factor(Factor):
@@ -79,7 +79,7 @@ class WB10Factor(Factor):
         if len(wb10) < int(window/3):
             return None
         ranked = ts_rank(wb10, window)
-        return ranked.iloc[-1].item()
+        return ranked.iloc[-1].item() if not np.isnan(ranked.iloc[-1]) else None
 
 
 class SpreadFactor(Factor):
@@ -109,7 +109,7 @@ class EnSellSumPriceFactor(Factor):
         sell_avg_p = avg_price(en_sell_p, en_sell_v, window2)[-window1:]
         sell_avg_p.reset_index(inplace=True, drop=True)
         res = ts_rank(sell_avg_p - avg_p, window1)
-        return res.iloc[-1].item()
+        return res.iloc[-1].item() if not np.isnan(res.iloc[-1]) else None
 
 
 
@@ -130,7 +130,7 @@ class EnBuySumPriceFactor(Factor):
         buy_avg_p = avg_price(en_buy_p, en_buy_v, window2)[-window1:]
         buy_avg_p.reset_index(inplace=True, drop=True)
         res = ts_rank(buy_avg_p - avg_p, window1)
-        return res.iloc[-1].item()
+        return res.iloc[-1].item() if not np.isnan(res.iloc[-1]) else None
 
 
 class OBPriceSpreadFactor(Factor):
@@ -169,7 +169,7 @@ class DeridBid1Factor(Factor):
             return None
 
         res = delta(b1, shift)
-        return res.iloc[-1].item()
+        return res.iloc[-1].item() if not np.isnan(res.iloc[-1]) else None
 
 
 class EnSellPriceFactor(Factor):
@@ -187,7 +187,7 @@ class EnSellPriceFactor(Factor):
         s1 = s1.round(4)
         avg_p = avg_p.round(4)
         res = ts_rank(fill_na_v2(en_sell_p, s1) - avg_p, window=window)
-        return res.iloc[-1].item()
+        return res.iloc[-1].item() if not np.isnan(res.iloc[-1]) else None
 
 
 class DEMAFactor(Factor):
@@ -205,7 +205,7 @@ class DEMAFactor(Factor):
         close = close.round(4)
         res = ta.DEMA(close, timeperiod)
         res = ret(res, shift)
-        return res.iloc[-1].item()
+        return res.iloc[-1].item() if not np.isnan(res.iloc[-1]) else None
 
 
 class BestVImbalanceFactor(Factor):
@@ -220,7 +220,7 @@ class BestVImbalanceFactor(Factor):
         b1 = builder.get_recent_features(name="b1", window=window_tot)
         s1 = builder.get_recent_features(name="s1", window=window_tot)
 
-        if len(b1) < int(window/3) + shift:
+        if len(b1) < int(window/3):
             return None
 
         b_flag1 = b1 == b1.shift(shift)
@@ -233,7 +233,7 @@ class BestVImbalanceFactor(Factor):
         res = bv_change - sv_change
 
         res = ts_rank(pd.Series(res), window)
-        return res.iloc[-1].item()
+        return res.iloc[-1].item() if not np.isnan(res.iloc[-1]) else None
 #
 #
 # class LeadingSpanBFactor(Factor):
@@ -357,7 +357,7 @@ class CanEnVolRatioFactor(Factor):
 
         res = (buy_power - sell_power) / (buy_power + sell_power)
         res.fillna(0, inplace=True)
-        return res.iloc[-1].item()
+        return res.iloc[-1].item() if not np.isnan(res.iloc[-1]) else None
 
 
 class OBPriceDeriFactor(Factor):
@@ -401,7 +401,7 @@ class CanEnVolRatioTRankFactor(Factor):
         res = (buy_power - sell_power) / (buy_power + sell_power)
         res.fillna(0, inplace=True)
         res = ts_rank(res, window1)
-        return res.iloc[-1].item()
+        return res.iloc[-1].item() if not np.isnan(res.iloc[-1]) else None
 
 
 class EnBuyPriceFactor(Factor):
@@ -452,7 +452,7 @@ class RetNCorrFactor(Factor):
         res = ts_corr(ret_v, (td_buy_n + td_sell_n), window=window)
         if np.isnan(res.iloc[-1]):
             return None
-        return res.iloc[-1].item()
+        return res.iloc[-1].item() if not np.isnan(res.iloc[-1]) else None
 
 
 class TSIFactor(Factor):
@@ -471,7 +471,7 @@ class TSIFactor(Factor):
         ema1 = ta.EMA(det_c, timeperiod1)
         ema2 = ta.EMA(det_c.abs(), timeperiod1)
         res = ta.EMA(ema1, timeperiod2) * 100 / ta.EMA(ema2, timeperiod2)
-        return res.iloc[-1].item()
+        return res.iloc[-1].item() if not np.isnan(res.iloc[-1]) else None
 
 
 # class ConversionLineFactor(Factor):
@@ -508,7 +508,7 @@ class TradeVolRatioFactor(Factor):
 
         res = fill_na((td_buy_v - td_sell_v) / (td_buy_v + td_sell_v))
         res = ts_rank(res, window)
-        return res.iloc[-1].item()
+        return res.iloc[-1].item() if not np.isnan(res.iloc[-1]) else None
 
 
 class EnSellRet5Factor(Factor):
@@ -580,7 +580,7 @@ class OHLCRatioFactor(Factor):
                                                                                     raw=True)
         res = (c_r - o_r) / (h_r - l_r)
         res.where((h_r - l_r) != 0, 0, inplace=True)
-        return res.iloc[-1].item()
+        return res.iloc[-1].item() if not np.isnan(res.iloc[-1]) else None
 
 
 class TradePVRatioFactor(Factor):
@@ -601,7 +601,7 @@ class TradePVRatioFactor(Factor):
         res.fillna(0, inplace=True)
 
         res = ts_rank(res, window1)
-        return res.iloc[-1].item()
+        return res.iloc[-1].item() if not np.isnan(res.iloc[-1]) else None
 
 
 class TradeVolInHihgPriceFactor(Factor):
@@ -627,7 +627,7 @@ class TradeVolInHihgPriceFactor(Factor):
             res = n_in_region / n_total
         except RuntimeWarning as e:
             return 0
-        return res.item()
+        return res.item() if not np.isnan(res) else None
 
 class HCPFactor(Factor):
     name = 'HCP'
@@ -643,7 +643,7 @@ class HCPFactor(Factor):
         td_buy_p.ffill(inplace=True)
         new_p = td_buy_p.where(td_buy_p > close.iloc[-1] + 1e-5, 0)
         res = np.nanmean(new_p, axis=0) / close.iloc[-1]
-        return res.item()
+        return res.item() if not np.isnan(res) else None
 
 class CloseAdjustFactor(Factor):
     name = 'close_adjusted'
@@ -672,7 +672,7 @@ class LCPFactor(Factor):
         td_sell_p.ffill(inplace=True)
         new_p = td_sell_p.where(td_sell_p < close.iloc[-1] - 1e-5, 0)
         res = np.nanmean(new_p, axis=0) / close.iloc[-1]
-        return res.item()
+        return res.item() if not np.isnan(res) else None
 
 
 class TradeEnVolRatioBuyDirFactor(Factor):
@@ -687,7 +687,7 @@ class TradeEnVolRatioBuyDirFactor(Factor):
 
         res = ts_sum(td_buy_v, window)/ts_sum(en_buy_v, window)
         res = fill_na(res)
-        return res.iloc[-1].item()
+        return res.iloc[-1].item() if not np.isnan(res.iloc[-1]) else None
 
 
 class TradeBuyFactor(Factor):
@@ -703,7 +703,7 @@ class TradeBuyFactor(Factor):
 
         res = td_buy_p * td_buy_v
         res = ts_rank(res, window)
-        return res.iloc[-1].item()
+        return res.iloc[-1].item() if not np.isnan(res.iloc[-1]) else None
 
 
 class TradePowerFactor(Factor):
@@ -729,7 +729,7 @@ class TradePowerFactor(Factor):
             res = (buy_power - sell_power) / (buy_power + sell_power + 1e-4)
         except RuntimeWarning as e:
             return 0
-        return res.item()
+        return res.item() if not np.isnan(res) else None
 
 
 class HCVOLFactor(Factor):
@@ -748,7 +748,7 @@ class HCVOLFactor(Factor):
             res = np.nansum(v, axis=0) / np.nansum(td_buy_v, axis=0)
         except RuntimeWarning as e:
             return None
-        return res.item()
+        return res.item() if not np.isnan(res) else None
 
 
 class TradeAvgVolInHighPriceFactor(Factor):
@@ -787,7 +787,7 @@ class TradeAvgVolInHighPriceFactor(Factor):
             res = (v_in_region / n_in_region) / (v_total / n_total)
         except RuntimeWarning as e:
             return 0
-        return res.item()
+        return res.item() if not np.isnan(res) else None
 
 
 
@@ -811,7 +811,7 @@ class EnPowerFactor(Factor):
         buy_power = np.nansum(buy_power, axis=0)
         sell_power = np.nansum(sell_power, axis=0)
         res = (buy_power - sell_power) / (buy_power + sell_power + 1e-4)
-        return res.item()
+        return res.item() if not np.isnan(res) else None
 
 class PriceVolCorrFactor(Factor):
     name = 'pv_corr'
@@ -878,7 +878,7 @@ class RetSkewFactor(Factor):
         close = close.round(4)
         ret_v = ret(close, shift)
         res = ts_skew(ret_v, window)
-        return res.iloc[-1].item()
+        return res.iloc[-1].item() if not np.isnan(res.iloc[-1]) else None
 
 
 class EnBuyPriceStdFactor(Factor):
@@ -912,7 +912,7 @@ class AwesomeOscillatorFactor(Factor):
         ts_low = ts_min(low, window)
         mean = (ts_high + ts_low) / 2
         res = ta.SMA(mean, 5) - ta.SMA(mean, 34)
-        return res.iloc[-1].item()
+        return res.iloc[-1].item() if not np.isnan(res.iloc[-1]) else None
 
 class AlligatorTeethFactor(Factor):
     name = 'AlligatorTeeth'
@@ -932,7 +932,7 @@ class AlligatorTeethFactor(Factor):
         mean = (ts_high + ts_low) / 2
         res = ta.SMA(mean, 8)
         res = ret(res, shift)
-        return res.iloc[-1].item()
+        return res.iloc[-1].item() if not np.isnan(res.iloc[-1]) else None
 
 class RetKurtFactor(Factor):
     name = 'ret_kurt'
@@ -1002,7 +1002,7 @@ class AroonDownFactor(Factor):
         ts_high = ts_max(high, window)
 
         res = ta.AROON(high=ts_high, low=ts_low, timeperiod=timeperiod)[1]
-        return res.iloc[-1].item()
+        return res.iloc[-1].item() if not np.isnan(res.iloc[-1]) else None
 
 class TradePriceStdFactor(Factor):
     name = 'td_price_std'
@@ -1017,7 +1017,7 @@ class TradePriceStdFactor(Factor):
 
         res = ts_std(vwap.ffill(), window2)
         res = ts_rank(res, window1)
-        return res.iloc[-1].item()
+        return res.iloc[-1].item() if not np.isnan(res.iloc[-1]) else None
 
 
 class TradeNumInLowPriceFactor(Factor):
@@ -1063,7 +1063,7 @@ class CancelTimeBuyMedFactor(Factor):
 
         inv_t = np.where(ct_b_med == 0, 0, 1/ct_b_med)
         res = ts_rank(pd.Series(inv_t), window=window)
-        return res.iloc[-1].item()
+        return res.iloc[-1].item() if not np.isnan(res.iloc[-1]) else None
 
 
 class EnVolInbalanceFactor(Factor):

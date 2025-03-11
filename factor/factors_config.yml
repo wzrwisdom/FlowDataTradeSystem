@@ -114,8 +114,8 @@ ohlc_rat:
 # parameter error, need to modify parameter window2
 # factor in "CalculateFactor" framework need be corrected
 td_p_v_ratio:
-  window1: 60
-  window2: 3
+  window1: 100
+  window2: 5
 
 # factor in "CalculateFactor" framework need be corrected
 trade_vol_in_high_price:
@@ -207,7 +207,7 @@ td_price_std:
 
 # wrong in 'CalculatorFactor' framework
 trade_num_in_low_price:
-  window: 600
+  window: 60
   perc: 0.3
 
 

@@ -143,7 +143,7 @@ class CLHDELTAFACTOR(Factor):
         shift = self.kwargs["shift"]
         window_tot = window + shift
         last = builder.get_recent_features(name="last", window=window_tot)
-        if len(last) < window_tot:
+        if len(last) < min(100, int(window/2)):
             return None
 
         o = last.rolling(window=window, min_periods=min(100, int(window/2))).apply(lambda x: x[0], raw=True)
@@ -239,7 +239,7 @@ class BestVImbalanceFactor(Factor):
         b1 = builder.get_recent_features(name="b1", window=window_tot)
         s1 = builder.get_recent_features(name="s1", window=window_tot)
 
-        if len(b1) < int(window/3) + shift:
+        if len(b1) < int(window/3):
             return None
 
         b_flag1 = b1 == b1.shift(shift)
@@ -286,6 +286,8 @@ class DetrendFactor(Factor):
 
     def compute(self, builder, **kwargs):
         last = builder.get_recent_features(name="last", window=None)
+        if len(last) < 101:
+            return None
         try:
             res = scipy.signal.detrend(last)[-1]
             return res.item()
@@ -354,7 +356,7 @@ class TradeRetVProdFactor(Factor):
         vol = builder.get_recent_features(name="vol", window=window)
         if len(vol) < int(window/3):
             return None
-        res = ret(vwap) * vol
+        res = ret(vwap)[1:].reset_index(drop=True) * vol
         res = ts_rank(res, window)
         return res.iloc[-1].item() if not np.isnan(res.iloc[-1]) else None
 
@@ -524,7 +526,7 @@ class VLIFactor(Factor):
         vol = builder.get_recent_features(name="vol", window=window)
 
         if len(vol) < int(window / 3):
-            return None
+            return 0
         res = ts_std(vol, window) / ts_mean(vol, window)
         res.fillna(0, inplace=True)
         return res.iloc[-1].item() if not np.isnan(res.iloc[-1]) else None
