@@ -101,7 +101,7 @@ class FeatureBuilder:
                     self.feat.loc[self.feat.index[last_valid_index+1:index], name] = self.feat.loc[last_valid_time, 'close']
 
             self.feat.loc[cur_time, name] = value
-        self.effect_feat_index = self.time_index.get_indexer([cur_time])[0]
+        # self.effect_feat_index = self.time_index.get_indexer([cur_time])[0]
 
     def build_snap_features(self, data):
         ##########   构建特征所需函数   ######
@@ -114,8 +114,9 @@ class FeatureBuilder:
         features = {}
         self.cur_time = pd.Timestamp(datetime.now()).normalize() + pd.to_timedelta(
             data['datetime'].time().strftime("%H:%M:%S.%f"))
-        self.feat_index = self.time_index.get_indexer([self.cur_time])[0].item()
-
+        feat_index = self.time_index.get_indexer([get_aligned_time(self.cur_time)])[0].item()
+        if feat_index == -1:
+            return
         sv1_sum = data['ask_volumes'][0]
         bv1_sum = data['bid_volumes'][0]
         features.update({
@@ -157,13 +158,18 @@ class FeatureBuilder:
             'ssv10_sum': ssv10_sum, 'bbv10_sum': bbv10_sum,
             'wb1': wb1, 'wb5': wb5, 'wb10': wb10, 'bs_avg_price': bs_avg_price
         })
-        self.add_feature(self.feat_index, features)
+        self.add_feature(feat_index, features)
 
+    def builder_other_features(self, time):
+        new_second = time.second - time.second % 3
+        time = time.replace(second=new_second, microsecond=0)
+        time = pd.Timestamp(datetime.now()).normalize() + pd.to_timedelta(
+            time.time().strftime("%H:%M:%S.%f"))
+        self.feat_index = self.time_index.get_indexer([time])[0]
         # 考虑到快照信息是按照给定的频率发送的，以接收到快照信息的时点为判断，进行计算成交特征以及委托特征
         self.build_transaction_features(self.time_index[self.feat_index])
         self.build_entrust_features(self.time_index[self.feat_index])
         self.build_cancel_features(self.time_index[self.feat_index])
-
 
 
 

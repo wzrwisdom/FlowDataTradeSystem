@@ -15,7 +15,9 @@ class StrategyC(Strategy):
         factor_builder = self.factor_builderDict[data['symbol']]
         # log.info("Accept snapshot info and build features")
         time1 = time.perf_counter()
-        feature_builder.build_snap_features(data)
+        is_valid = feature_builder.build_snap_features(data)
+        if not is_valid:
+            return
         time2 = time.perf_counter()
         time3 = time.perf_counter()
         elapsed_time = time3 - time2

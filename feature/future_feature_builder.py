@@ -79,7 +79,7 @@ class FutureFeatureBuilder:
     def build_snap_features(self, data):
         features = {}
         self.cur_time = pd.Timestamp(datetime.now()).normalize() + pd.to_timedelta(data['datetime'].time().strftime("%H:%M:%S.%f"))
-        self.snap_feat_index = self.time_index.get_indexer([self.cur_time])[0].item()
+        self.snap_feat_index = self.time_index.get_indexer([get_aligned_time(self.cur_time)])[0].item()
 
         if self.snap_feat_index == 0:
             turnover = data['total_turnover']
@@ -113,3 +113,4 @@ class FutureFeatureBuilder:
             'turnover': turnover
         })
         self.add_feature(self.snap_feat_index, features)
+        return True
