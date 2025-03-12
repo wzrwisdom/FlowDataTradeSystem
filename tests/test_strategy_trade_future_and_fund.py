@@ -4,7 +4,7 @@ import yaml
 sys.path.insert(0, "../../")
 
 from FlowDataTradeSystem.marketdata import datahandler as dh
-from FlowDataTradeSystem.strategy.strategyC import StrategyC
+from FlowDataTradeSystem.strategy.strategyD import StrategyD
 from FlowDataTradeSystem.myenums.market_data_type import MarketDataType
 from FlowDataTradeSystem.marketdata.data_adapter import CounterDataFetcher
 from FlowDataTradeSystem.marketdata.counters.counterFutureAndFund import CounterFutureAndFundAdapter
@@ -64,6 +64,7 @@ factors_name += future_factors_name
 
 model_dict = get_model_dict(factors_name)
 context = {
+    'symbols': symbols,
     'preprocess_filepath': './data/data_process_params_future_and_fund/{}.yml',
     'model_dict': model_dict,
     'judge_col': 'spread1_fund',
@@ -75,7 +76,7 @@ context = {
     'vol': 10000
 }
 
-strategy = StrategyC(featBuilderDict, facBuilderDict, context=context)
+strategy = StrategyD(featBuilderDict, facBuilderDict, context=context)
 
 snap_dh = dh.SnapshotDataHandler()
 snap_dh.subscribe(strategy.on_quote)
