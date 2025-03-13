@@ -554,31 +554,35 @@ class ReturnVolProductFactor(Factor):
         if len(close) < int(window / 3) + 1:
             return None
 
-        previous_list = self.state.get("previous_list", None)
-        if previous_list is None:
-            previous_list = []
-            # 计算收益率
-            values = [
-                (close.iloc[i + 1] - close.iloc[i]) / close.iloc[i] * vol.iloc[i + 1]
-                for i in range(len(close) - 1)
-            ]
-            for value in values:
-                previous_list.append(value)
-            self.state["previous_list"] = previous_list
+        res = ret(close)[1:].reset_index(drop=True) * vol
+        res = ts_rank(res, window)
+        return res.iloc[-1].item() if not np.isnan(res.iloc[-1]) else None
 
-            ranked = ts_rank(pd.Series(values), window)
-            return ranked.iloc[-1].item()
-        else:
-            # 插入新价格
-            new_val = (close.iloc[-1] - close.iloc[-2]) / close.iloc[-1] * vol.iloc[-1]
-            previous_list.append(new_val)
-
-            # 如果超过10个价格，移除最早的一个
-            if len(previous_list) > window:
-                previous_list.pop(0)  # 删除最小的，保证维护10个价格
-
-            # 获取排名 (归一化到 [0, 1])
-            ranked = ts_rank(pd.Series(previous_list), window)
-            return ranked.iloc[-1].item()
+        # previous_list = self.state.get("previous_list", None)
+        # if previous_list is None:
+        #     previous_list = []
+        #     # 计算收益率
+        #     values = [
+        #         (close.iloc[i + 1] - close.iloc[i]) / close.iloc[i] * vol.iloc[i+1]
+        #         for i in range(len(close) - 1)
+        #     ]
+        #     for value in values:
+        #         previous_list.append(value)
+        #     self.state["previous_list"] = previous_list
+        #
+        #     ranked = ts_rank(pd.Series(values), window)
+        #     return ranked.iloc[-1].item()
+        # else:
+        #     # 插入新价格
+        #     new_val = (close.iloc[-1] - close.iloc[-2]) / close.iloc[-1] * vol.iloc[-1]
+        #     previous_list.append(new_val)
+        #
+        #     # 如果超过10个价格，移除最早的一个
+        #     if len(previous_list) > window:
+        #         previous_list.pop(0)  # 删除最小的，保证维护10个价格
+        #
+        #     # 获取排名 (归一化到 [0, 1])
+        #     ranked = ts_rank(pd.Series(previous_list), window)
+        #     return ranked.iloc[-1].item()
 
 
