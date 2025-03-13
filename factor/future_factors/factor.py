@@ -356,7 +356,10 @@ class TradeRetVProdFactor(Factor):
         vol = builder.get_recent_features(name="vol", window=window)
         if len(vol) < int(window/3):
             return None
-        res = ret(vwap)[1:].reset_index(drop=True) * vol
+        ret_v = ret(vwap)[1:].reset_index(drop=True)
+        if len(vwap) == len(vol):
+            vol = vol[1:].reset_index(drop=True)
+        res = ret_v * vol
         res = ts_rank(res, window)
         return res.iloc[-1].item() if not np.isnan(res.iloc[-1]) else None
 
@@ -553,8 +556,10 @@ class ReturnVolProductFactor(Factor):
         vol = builder.get_recent_features(name="vol", window=window)
         if len(close) < int(window / 3) + 1:
             return None
-
-        res = ret(close)[1:].reset_index(drop=True) * vol
+        ret_v = ret(close)[1:].reset_index(drop=True)
+        if len(close) == len(vol):
+            vol = vol[1:].reset_index(drop=True)
+        res = ret_v * vol
         res = ts_rank(res, window)
         return res.iloc[-1].item() if not np.isnan(res.iloc[-1]) else None
 
